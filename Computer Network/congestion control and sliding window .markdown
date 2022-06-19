@@ -52,9 +52,6 @@ ssthresh：慢开始阈值
 
 
 
-
-
-
 [拥塞控制相关文章]( https://en.wikipedia.org/wiki/TCP_congestion_control#:~:text=In%20TCP%2C%20the%20congestion%20window,overloaded%20with%20too%20much%20traffic.](https://en.wikipedia.org/wiki/TCP_congestion_control#:~:text=In%20TCP%2C%20the%20congestion%20window,overloaded%20with%20too%20much%20traffic. )
 
   
