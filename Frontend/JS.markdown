@@ -36,3 +36,11 @@ javascript数据类型
 
 
 match()正则表达式匹配
+
+$.Ajax或$.get或$.post，必须要指定返回类型，否则会出现解析错误
+
+
+
+datatable params:
+
+datasrc:对返回的数据进行处理，比如返回一系列json数据，但只对其中一个数据进行做表
