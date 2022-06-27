@@ -1,6 +1,10 @@
 # JS
 
+## Question
 
+后端已经用viewUtil.writeJson封装成了json数组，为什么前端使用ajax的时候如果不指定dataType,默认success返回的是字符串呢？
+
+var trobj=$(\<tr>\</tr>)为什么成立?
 
 ## 为什么要学习JavaScript
 
@@ -44,3 +48,10 @@ $.Ajax或$.get或$.post，必须要指定返回类型，否则会出现解析错
 datatable params:
 
 datasrc:对返回的数据进行处理，比如返回一系列json数据，但只对其中一个数据进行做表
+
+ajax默认返回字符串，只有当确定"dataType"的时候才返回指定类型
+var trobj=$("<tr></tr>")
+
+
+JS中for(x in y)
+x代表下标，而不是值
