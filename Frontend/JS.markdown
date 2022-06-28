@@ -4,6 +4,8 @@
 
 后端已经用viewUtil.writeJson封装成了json数组，为什么前端使用ajax的时候如果不指定dataType,默认success返回的是字符串呢？
 
+undefined和null的区别
+
 var trobj=$(\<tr>\</tr>)为什么成立?
 
 ## 为什么要学习JavaScript
@@ -39,19 +41,34 @@ javascript数据类型
 2.  对象名["属性名"]
 
 
-match()正则表达式匹配
-
-$.Ajax或$.get或$.post，必须要指定返回类型，否则会出现解析错误
 
 
 
-datatable params:
 
-datasrc:对返回的数据进行处理，比如返回一系列json数据，但只对其中一个数据进行做表
+构造函数
 
-ajax默认返回字符串，只有当确定"dataType"的时候才返回指定类型
-var trobj=$("<tr></tr>")
+    function Persion(name,age){
+     this.name=name;
+     this.age=age;
+     this.sayName=function(){console.log(this.name)};
+    }
 
 
-JS中for(x in y)
-x代表下标，而不是值
+构造函数其实就是一个普通的函数，不同的是构造函数习惯上首字母大写，构造函数和普通函数的还有一个区别就是调用方式的不同，普通函数是直接调用，而构造函数需要使用new关键字进行调用。
+
+构造函数执行创建对象的过程:
+
+1. 调用构造函数，他会立刻创建一个新的对象
+2. 将新建的对象设置为函数中this,在构造函数中可以使用this来引用新建的对象。
+3. 逐行执行函数中的代码
+4. 将新建的对象作为返回值返回
+
+
+
+## this:
+
+   + 当以函数的形式调用时，this是window
+   + 当以方法的形式调用时，谁调用方法,this就是谁
+   + 当以构造函数的形式调用，this就是新创建的那个对象
+
+
