@@ -61,15 +61,40 @@ jQuery过滤器必须用在jQuery选择器后，表示对通过前面的jQuery�
 
 + 基本过滤器
 
-  selector:first 获取所有已选择到的元素中第一个元素
-  selector:last 获取所有已选择到的元素中的最后一个元素
-  selector:even 获取所有已选择到的元素中索引为偶数的元素
-  selector:odd 获取所有已选择到的元素中索引为奇数的元素
-  selector:eq(index) 获取所有已选择到的元素中索引为index的元素
-  selector:lt(num) 获取所有已选择到的元素中索引小于num的元素
-  selector:gt(num)  获取所有已选择到的元素中索引大于num的元素
-  selector:not(selector2) 获取所有已选择到的元素除了selector2的元素
-  selector:header 获取所有已选择到的元素中的标题元素(h1~h6)
+ >  selector:first 获取所有已选择到的元素中第一个元素
+> 
+>   selector:last 获取所有已选择到的元素中的最后一个元素
+> 
+>   selector:even 获取所有已选择到的元素中索引为偶数的元素
+> 
+>   selector:odd 获取所有已选择到的元素中索引为奇数的元素
+> 
+>   selector:eq(index) 获取所有已选择到的元素中索引为index的元素
+> 
+>   selector:lt(num) 获取所有已选择到的元素中索引小于num的元素
+> 
+>   selector:gt(num)  获取所有已选择到的元素中索引大于num的元素
+> 
+>   selector:not(selector2) 获取所有已选择到的元素除了selector2的元素
+> 
+>   selector:header 获取所有已选择到的元素中的标题元素(h1~h6)
+
++ 内容过滤器
+
+  > selector:contains(text)获取所有已选择到的元素中包含text的元素
+> 
+>   selector:empty 获取所有已选择到的元素中的空元素
+> 
+>   selector:parent 获取所有已选择到的元素中非空的元素(有子节点)
+> 
+>   selector1:has(selector2)获取所有已选择到的元素中包含selector2的元素
+>   
+
+
++ 
+
+
+
 
 match()正则表达式匹配
 

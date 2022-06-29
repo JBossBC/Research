@@ -3,7 +3,6 @@
 ## Question
 
 拥塞控制的实现?
-什么是ICMP?
 
 + MTU
 

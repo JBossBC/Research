@@ -72,3 +72,8 @@ javascript数据类型
    + 当以构造函数的形式调用，this就是新创建的那个对象
 
 
+
+
+js切割字符串
+   字符串.slice(begin,end)
+
