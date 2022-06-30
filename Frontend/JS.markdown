@@ -2,6 +2,8 @@
 
 ## Question
 
+'和"的区别
+
 后端已经用viewUtil.writeJson封装成了json数组，为什么前端使用ajax的时候如果不指定dataType,默认success返回的是字符串呢？
 
 undefined和null的区别

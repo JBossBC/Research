@@ -1,6 +1,11 @@
 # JQuery
 
 
+## Question
+
+HTML加载顺序?
+
+
 JQuery是一个优秀的JavaScript库，极大地简化了JavaScript开发人员遍历HTML文档，操作DOM，执行动画和开发Ajax操作
 
 
