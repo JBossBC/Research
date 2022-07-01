@@ -7,5 +7,11 @@
 表格
 <table>
 
-<tr>定义行
-<td>定义每行的单元格
+\<tr>定义行
+\<td>定义每行的单元格
+\<th>标头
+
+
+
+标签隐藏 visibility:hidden
+标签显示 visibility:visible
