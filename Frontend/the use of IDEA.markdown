@@ -12,3 +12,4 @@ ctrl+g 快速定义到某一行
 alt+7 查看一个类的结构
 
 idea不能自动编译js文件，修改了js文件后需要mvn clean重新配置
+ctrl+shift+F8 打开所有断点
