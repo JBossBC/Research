@@ -18,3 +18,19 @@ ctrl+O 保存文件；   ctrl+W 查询字符串；
 ctrl +C 说明目前光标所在处的行数和列数等信息；
 
 ctrl+ _ 可以直接输入行号，让光标快速移到该行；
+
+### netstat
+
+netstat -tunlp 用于限制tcp，udp的端口和进程等相关情况
+
+`netstat -tunlp | grep 端口号`
+
++ -t(tcp)仅显示tcp相关选项
++ -u(udp)仅显示udp相关选项
++ -n 拒绝显示别名，能显示数字的全部转化为数字
++ -l 仅列出在listen(监听)的服务状态
++ -p 显示建立相关链接的程序名
+
+### kill 
+
+kill 
