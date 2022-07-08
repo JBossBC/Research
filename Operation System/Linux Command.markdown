@@ -33,4 +33,9 @@ netstat -tunlp 用于限制tcp，udp的端口和进程等相关情况
 
 ### kill 
 
-kill 
+kill ??
+
+### 统计当前目录下的文件数量(包括子文件)
+
+`ls -lR|grep "^-"| wc -l`
+
