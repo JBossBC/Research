@@ -118,7 +118,7 @@ git diff HEAD 查看工作区与本地仓库之间的状态
 
 展示提交日志 
 
-## git show
+## git show(和 git cat-file -p的作用优点相似)
 > 
 > git-show - Show various types of objects
 
@@ -147,6 +147,10 @@ git diff HEAD 查看工作区与本地仓库之间的状态
 ## 查看某次提交的内容
 
 git show hash
+
+## 查看本地某个 tag 的详细信息：
+
+git show \<tagName>
 
 ## 查看工作区文件
 `git ls-files `
@@ -193,3 +197,13 @@ git show hash
 
 ## git add
 git add 的作用就是创建一个blob文件来记录最新的修改代码，并且在index file里面添加一个到blob的链接
+
+## git tag
+
+> 创建一个tag,基于本地分支的commit，与分支的推送是两回事
+
+git tag <tagName>
+
+> 推送tag到远程分支
+
+git push origin --tags
