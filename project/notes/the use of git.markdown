@@ -1,5 +1,9 @@
 # git
 
+## Question
+
+git的objects blob没有存储真正的数据，存储的是数据的hash值，当我们修改一个文件后，保存并同步到local repository，那么我们想要回退到原版本的文件，怎么办呢(因为blob只存储了hash值，同时磁盘中存储的原文件数据已经被修改)????
+
 
 ## git 对象
 
@@ -236,3 +240,10 @@ git push origin --tags
 ## 删除远程分支
 
 删除远程分支 git push origin --delete branchName
+
+## git fetch
+
+>git-fetch - Download objects and refs from another repository
+>
+
+
