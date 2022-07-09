@@ -37,7 +37,7 @@ git会对所有文件内容进行压缩，即使仓库存储了非常多内容�
 ![](https://www.runoob.com/wp-content/uploads/2015/02/git-command.jpg)
 
 + workspace：工作区
-+ staging area：暂存区/缓存区
++ staging area：暂存区/缓存区(一个简单的索引文件，指的是.git/index文件,索引文件里面包含的是文件的目录树，**像一个虚拟的工作区**，在这个虚拟工作区的目录树中，记录了文件名、文件的最后修改时间、文件长度、以及最重要的sha-1值，文件的内容并没有存在其中)
 + local repository：版本库或本地仓库
 + remote repository：远程仓库
 
@@ -80,6 +80,27 @@ VSC(version system control)
 
 
 **git reset**
+
+>git-reset - Reset current HEAD to the specified state
+
+
+--soft
+
+    Does not touch the index file or the working tree at all (but resets the head to <commit>, just like all modes do). This leaves all your changed files "Changes to be committed", as git status would put it.
+--mixed
+
+    Resets the index but not the working tree (i.e., the changed files are preserved but not marked for commit) and reports what has not been updated. This is the default action.
+
+    If -N is specified, removed paths are marked as intent-to-add (see git-add(1)).
+--hard
+
+    Resets the index and working tree. Any changes to tracked files in the working tree since <commit> are discarded. Any untracked files or directories in the way of writing any tracked files are simply deleted.
+
+
+上面三种参数对应三种级别，确立了 head回退的时候对 work repository，index area，local repository的影响。
+
+
+
 
 ![](https://img-blog.csdnimg.cn/20191201114346620.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2t1c2VkZXhpbmdmdQ==,size_16,color_FFFFFF,t_70)
 
@@ -135,6 +156,9 @@ git diff HEAD 查看工作区与本地仓库之间的状态
 
 
 ## git cat-file -p hash
+
+
+git-cat-file - Provide content or type and size information for repository objects
 
 查看objects对象数据
 
@@ -207,3 +231,8 @@ git tag <tagName>
 > 推送tag到远程分支
 
 git push origin --tags
+
+
+## 删除远程分支
+
+删除远程分支 git push origin --delete branchName
