@@ -28,4 +28,10 @@ show processlist;
 
 show status like "Threads%"；
 
+## limit and offset
+
+limit y 表示:读取前y条数据
+limit x，y 表示:跳过x条数据，读取y条数据
+limit y offset x 表示:跳过x条数据，读取y条数据(读取x+1,x+1+y)
+
 
