@@ -127,7 +127,7 @@ x代表下标，而不是值
 ## $().empty()
 删除元素所有的子节点
 
-## datatables想要删除所有元素的值必须设定destroy为true
+## datatables想要删除所有制表元素fnDestroy()
 
 
 children()函数用于选取每个匹配元素的子元素，并以jQuery对象返回。你还可以使用选择器进一步缩小筛选范围，筛选出符合指定选择器的元素。
