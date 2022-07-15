@@ -4,6 +4,12 @@
 
 最小延时，最大吞吐量，最高可靠性，最小成本是什么？
 
+![](https://img-blog.csdnimg.cn/20200421205540812.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RoaW5QaWthY2h1,size_16,color_FFFFFF,t_70)
+
+  网络层的主要作用是地址管理与路由选择，地址管理我们此处针对ipv4来说，每一个ip地址分为网络号和主机号，同时我们将ip地址分为了五大类，ABC类地址经常拿来使用，D类地址主要是拿来进行多播使用,E类地址保留到今后使用。
+![](https://img-blog.csdnimg.cn/20200816111655578.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzY5MDc5NQ==,size_16,color_FFFFFF,t_70#pic_center )
+
+
 ## What is Network layer
 
 网络层的作用是在复杂的网络环境中为要发送的数据报找到一个合适的路径进行传输
