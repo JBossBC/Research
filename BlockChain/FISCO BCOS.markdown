@@ -8,7 +8,7 @@ Ubuntu 16.04+
 
 安装依赖openssl、curl
 
->** ubuntu**
+>* ubuntu**
 > 
 > sudo apt install -y openssl curl
 > 
