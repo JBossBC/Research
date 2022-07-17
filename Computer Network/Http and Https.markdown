@@ -1,5 +1,9 @@
 # Http
 
+## Question
+
+字符集和编码方式有什么不同？
+
 ## what is http?
 
 http:超文本传输协议，是一个基于请求与响应，无状态，应用层的协议。设计HTTP的初衷是为了提供一种发布和接收HTML页面的方法
@@ -43,3 +47,55 @@ http:超文本传输协议，是一个基于请求与响应，无状态，应用
 ![](https://img-blog.csdn.net/20180719103559793?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3hpYW9taW5nMTAwMDAx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
 
 ![](https://img-blog.csdnimg.cn/20190803111825690.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3hpYW9taW5nMTAwMDAx,size_16,color_FFFFFF,t_70)
+
+## 一个标准HTTP请求构成
+
+HTTP会话由HTTP客户端(即用户的浏览器)通过用户代理打开，并且连接请求消息被发送到HTTP服务器(WEB服务器)。请求消息也称为"客户端请求"，由以下几行组成: ①、请求行 ②、请求头 ③、请求体
+
+传递响应后，web服务器将关闭连接。这种连接称为无状态连接，因为它仅在数据交换期间存在。
+
++ 请求行
+
+请求行以一个方法符号开头，以空格分开，后面跟着请求的url和协议的版本，格式如下:
+
+> Method Request-URI HTTP-Version CRLF 
+
+Method 表示请求方法
+Request-URL 是一个统一资源标识符
+HTTP-Version 表示请求的HTTP协议版本
+CRLF 表示回车和换行(除了结尾的CRLF，不允许出现单独的CR或LF字符)
+请求方法(所有方法全为大写)有多种，各个方法的解释如下
+
+    GET ： 请求获取Request-URI所标识的资源
+    POST ：在Request-URI所标识的资源后附加新的数据
+    HEAD ：请求获取由Request-URI所标识的资源的响应消息报头
+    PUT ： 请求服务器存储一个资源，并用Request-URI作为其标识
+    DELETE ：请求服务器删除Request-URI所标识的资源
+    TRACE  ：请求服务器回送收到的请求信息，主要用于测试或诊断
+    CONNECT：保留将来使用
+    OPTIONS ：请求查询服务器的性能，或者查询与资源相关的选项和需求
+
++ 请求头
+
+HTTP消息报头包括:普通报头、响应报头、请求报头、实体报头，每一个报头域都是由名字+:+空格+值组成，消息报头域的名字是大小写无关的
+
++ 普通报头
+  
+     在普通报头中，有少数报头域用于所有的请求和响应消息，但并不用于被传输的实体，只用于传输的消息
+   
+ |字段名|说明|
+  | -- | -- |
+ |Cache-Control|控制缓存行为|
+|Connection|连接的管理|
+ |Date|普通报头域表示消息产生的日期和时间|
+|Pragma|http1.0中的保温指令控制|
+
++ 请求报头
+
+请求报头允许客户端向服务器端传递请求的附加信息以及客户端自身的信息。常见的请求报头包括
+
+|字段名|说明|
+|--|--|
+|Accept|客户端可处理的媒体类型:Accept:image/git|
+|Accept-Charset|客户端可处理的字符集|
+|Accept-Encoding
