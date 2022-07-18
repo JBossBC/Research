@@ -98,4 +98,21 @@ HTTP消息报头包括:普通报头、响应报头、请求报头、实体报头
 |--|--|
 |Accept|客户端可处理的媒体类型:Accept:image/git|
 |Accept-Charset|客户端可处理的字符集|
-|Accept-Encoding
+|Accept-Encoding|客户端的编码方式|
+|Accept-Langulage|客户端指定得到语言类型|
+|Authrization|web认证信息|
+|Expect|期待服务器的特定行为|
+|Host|请求报头域主要用于指定被请求资源的Internet主机和端口号|
+|User-Agent|请求报头域允许客户端将它的操作系统、浏览器和其他属性
+|Referer|请求中的url上一跳地址|
+
++ 响应报头
+
+响应报头允许服务器传递不能放在状态行的附加响应信息，以及关于服务器的信息和对Request-URL所标识的资源进行下一步访问的信息。常见的响应报头包括:
+
+|字段名|说明|
+|--|--|
+|Age|资源的创建时间|
+|Location|客户端重定向至指定的URL|
+|Retry-After|再次发送请求的时机|
+|www-Authenticate|服务器对客户端的认证|
