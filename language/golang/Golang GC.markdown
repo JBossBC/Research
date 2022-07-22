@@ -83,3 +83,28 @@ Golang的基本特征是"非分代、非紧缩、写屏障、并发标记处理"
 ### 辅助GC
 
 辅助GC是mallocgc中执行一部分gc标记的机制。每分配一定数量的内存，就会在mallocgc中做出一些gc标记工作。如果mallocgc分配了过多内存却没有完成足够多的标记工作，就会被挂起，直到其他gc工作线程完成了足够多的工作或gc结束时才会被唤醒。这个机制的目的是防止GC过程中mallocgc执行过快分配过多新内存，导致gc持续时间过长或无法完成。
+
+### GC触发条件
+
+gc的初始函数是runtime.gcstart，但调用gcstart不一定会开启一轮gc。gostart有一个gctrigger类型的参数，需要验证trigger.test()为true才会真正触发GC。而trigger有三种类型，分别对应3种触发GC的条件:
+
+1. gcTriggerHeap。这种类型的触发条件是memstats.heap_live>=memstats.gc_trigger，即当前使用的内存量超过GC触发阈值。而触发阈值memstats.gc_trigger，这个gc_trigger并不是根据gcpercent计算的下一次GC内存大小next_gc,而是基于一个持续估算更新的triggerRatio计算的值。triggerRatio的更新算法很复杂，主要在gcController.endCycle()中，但triggerRatio的值一定在gcpercent/100的0.6~0.95倍之间，因此gc_trigger一定小于next_gc
+2. gcTriggerTime。这类的触发条件是当前时间与上次GC事件memstats.last_gc_nanotime间的时间间隔已经超过forcegcperiod(120s)
+3. gcTriggerCycle。这种类型的trigger中会指定一个GC执行轮数，触发条件是指定的轮数n大于已执行过的GC轮数work.cycles。即如果已执行的GC次数没有达到指定次数，则触发一次GC
+
+而与上面的三类trigger对应，调用gcstart开始一次GC的位置有3处:
+
+1. 内存分配函数runtime.mallocgc中。mallocgc是goruntime中唯一的堆分配函数，在函数的末尾，会根据此次调用是否真正申请了新的堆内存来决定是否需要触发GC。这里使用的trigger类型是gcTriggerHeap。如前文所述，这里触发GC的条件是堆内存的用量超过一个阈值，这个阈值是由上一次gc结束后堆内存的大小乘以一个系数计算而来的。这个系数事实上是由更复杂的算法得出的，会略小于1+gcpercent/100。gcpercent的初始值来自于GOGC环境变量，默认为100.也就是说，如果堆内存用量达到上一次GC结束时用量的两倍，就会触发下一次GC.gcpercent可以debug.setGCpercent接口动态调整。通过这种方式，go runtime达到了两个目的 ①、内存使用量控制在一个比较稳定的范围 ②、gc触发不会太过频繁
+2. forcegchelper定时触发。forcegchelper是在runtime/proc.go的init函数中创建的一个goroutine(G)，专门用于定时触发GC。这个G由sysmon定时触发执行，触发间隔为120秒，这里使用的trigger类型是gcTriggerTime。
+3. runtime.GC()接口调用触发。在程序中调用这个接口会强制触发一次GC，而这个调用需要等到下一次GC完成后才会返回，而不是它出发的这次GC完成。原因是设计者希望显示调用GC的效果可以在函数返回后立刻通过heap profile看到，而下一次GC完成后这次GC的结果才会体现在heap profile中。这里使用的trigger类型是gcTriggerCycle。
+
+### GC过程
+
+为了避免长时间停止任务运行，golang将gc过程分为多个步骤，其中一些步骤是可以和任务goroutine并发执行的。目的是尽可能减少需要STW的时间。通过debug.gcstoptheworld可以控制gc的方式。如果debug.gcstoptheworld=1则标记阶段会完全停止任务运行，如果debug.gcstoptheworld=2则标记（mark）和清除（sweep）阶段都会完全停止任务运行。默认情况下，debug.gcstoptheworld=0。
+
+
+### gcStart:初始化与启动
+
+gcStart负责GC的舒适化，并启动后台标记工作，返回时会将GC阶段修改为_GCmark状态。流程如下:
+
+1. 调用gcBgMarkStartWorkers为每个p启动一个gcBgMarkWorker的G，用于标记全局和每个p上分配的内存。gcBgMarkWorker启动之后是可以长期存在的，因此不会每次执行GC都去创建，但在一些条件下部分gcBgMarkWorker会退出，这时gcStart会重新启动一个。gcStart会等待这些G全部创建完毕再进入下一步。但这些G不会立刻开始执行标记，而是要等到标记阶段后被gcController.findRunnableGCWorker唤醒执行。gcController.findRunnableGCWorker在runtime.schedule中被调用，如果正处于GC状态且worker数量没有达到阈值，就会运行gcBgMarkWorker。
