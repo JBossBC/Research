@@ -111,3 +111,5 @@ gcStart负责GC的舒适化，并启动后台标记工作，返回时会将GC阶
 2. stopTheWorldWithSema,停止所有任务
 3. gcController.startCycle()初始化一些GC执行参数，其中主要包括gcControllerState.dedicatedMarkWorkNeeded和gcControllerState.fractionalUtilizationGoal.这两个参数用于计算和设置每个P上的gcBgMarkWorker是独占P运行还是分时间片运行的。设置的原则和目的是控制GC标记所占用的CPU比例，这个比例通常由全局变量const gcBackgroundUtilization=0.25指定不超过25%
 4. setGCPhase(_GCmark),将GC阶段修改为_GCmark状态。setGCphase除了修改状态外，更重要的是**启动写屏障(write barrier)**如果状态为_GCmark/_GCmarktermination，写屏障就会打开。
+5. gcMarkRootPrepare，收集根节点信息，计算出根节点标记的任务量，记录在work.markrootJobs中。
+6. gcMarkTinyAllocs,完成每个p的小型对象内存标记。**gcMarkTinyAllocs会将每个p使用本地缓存mcache分配的小型数据结构地址标记为灰色并加入到p.gcw队列中**
