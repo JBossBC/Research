@@ -2,6 +2,8 @@
 
 ## Question
 
+
+为什么需要8位的协议号
 最小延时，最大吞吐量，最高可靠性，最小成本是什么？
 
 ![](https://img-blog.csdnimg.cn/20200421205540812.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RoaW5QaWthY2h1,size_16,color_FFFFFF,t_70)
