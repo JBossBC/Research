@@ -1,4 +1,4 @@
-#Progressive symbol (Ο、Ω、Θ)
+# Progressive symbol (Ο、Ω、Θ)
 
 
 
