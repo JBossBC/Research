@@ -53,3 +53,9 @@ config get * 获取redis服务器所有的配置项,包括密码
 config set configName configValue 设置config的值
 
 keys * 获取当前数据库所有的key值
+
+ping 查看服务是否运行
+
+echo message打印字符串
+
+auth password 验证密码是否正确
