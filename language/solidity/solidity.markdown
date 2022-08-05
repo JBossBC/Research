@@ -119,3 +119,14 @@ ERC721规范有两种不同的方法来转移代币
 
 transfer和takeOwnership都将包含相同的转移逻辑，只是以相反的顺序(一种情况是代币的发送者调用函数；另一种情况是代币的接收者调用它)
 
+### assert和require
+
+assert和require相似，若结果为否它就会抛出错误。assert和require区别在于，require若失败则会返还给用户剩下的gas,assert则不会。所以大部分情况下，写代码的时候会比较喜欢require,assert只在代码可能出现严重错误的时候使用，比如uint溢出。
+
+所以简而言之，SafeMath的add,sub,mul和div方法只做简单的四则运算，然后在发生溢出或下溢的时候抛出错误。
+
+### 合约安全增强：溢出和下溢
+
+为了防止因为变量的取值范围而出现的溢出情况，OpenZeppelin建立了一个叫做SafeMath的_库_,默认情况下可以防止这些问题。
+
+一个_库_是solidity中一种特殊的合约。其中一个有用的功能是给原始数据类型增加一些方法

@@ -1,5 +1,8 @@
 # Memory allocate
 
+golang将内存分成了大大小小67个级别的span,其中,0级代表特殊的大对象，其大小是不固定的。**当具体的对象需要分配内存时，并不是直接分配span,而是分配不同级别的span中的元素**。因此span的级别不是以每个span的大小为依据的，而是以span中元素的大小为依据的。
+
+
 
 ## 概述
 
@@ -35,13 +38,18 @@
 
 ### 管理组件
 
-优秀的内存分配器必须要在性能和内存利用率之间做到平衡。好在，Golang的起点很高，直接采用了tcmalloc的成熟架构。
+优秀的内存分配器必须要在性能和内存利用率之间做到平衡。好在，Golang的起点很高，直接采用了tcmalloc的成熟架构。每个逻辑处理器P都存储了一个本地span缓存，称为mcache。如果协程需要内存可以直接从mcache中获取，**由于在同一时间只有一个协程运行在逻辑处理器p上，所以中间不需要加锁。**mcache包含所有大小规格的mspan,但是每种规格大小只包含一个。除class0外，mcache的span都来自mcentral。
+
+  
 
 分配器由三种组件组成。
 
 + cache:每个运行期工作线程都会绑定一个cache，用于无锁object分配。
 + central:为所有cache提供切分好的后备span资源。
 + heap:管理闲置span，需要时向操作系统申请新内存。
+   + mcentral是被所有逻辑处理器P共享的
+   + mcentral对象收集所有给定规格大小的span。每个mcentraal都包含两个mspan的链表:empty mspanList表示没有空闲对象或**span已经被mcache缓存的span链表**,nonempty mspanList表示有空闲对象的span链表。
+
 
 分配流程:
 
