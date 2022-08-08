@@ -34,8 +34,17 @@ golang将小于16bytes的对象划分为微小对象。划分微小对象的主�
 
 allocCache使用小端模式标记span中的元素是否被分配。allocCache中的最后1bit对应的是span中的第一个元素是否被分配(如果span超过64个大小，则还会加上freeindex偏移量）。当bit位为1时代表当前对应的span中的元素已经被分配。只要从allocCache开始找到哪一位为0即可，加入X为0,那么X+freeindex为当前span中可用的元素序号。当allocCache中所有bit位都标记为1时，需要移动freeindex并更新allocCache，一直到span中元素的末尾为止。
 
++ mcentral遍历span
 
+如果当前的span中没有可以使用的元素，这个时候就需要从mcentral中加锁查找(所有调度器P都共享一个mcentral。mcentral有两种类型的span链表，分别是有空闲元素的nonempty链表和没有空闲元素的empty链表。**在mcentral查找时，会分别遍历这两个链表，查找是否有可用的span。**
 
+为什么还要遍历没有空闲元素的empty链表呢?因为golang采用并发时三色标记法进行垃圾回收，可能有些span虽然被垃圾回收器标记为空闲了，但是还没有来得及清理，这些span在清扫后是可以使用的，因此需要遍历...
+
+如果在mcentral中查找到有空闲元素的span，则会将其赋值到mcache中，并更新allocCache，同时需要将span添加到mcentral的empty链表中去。
+
++ mheap缓存查找
+
+如果在mcentral中找不到可以使用的span,就需要在mheap中查找。Go1.12采用treap结构进行内存管理,treap是一种引入了随机数的二叉搜索树，引入的随机数及必要时的旋转保证了比较好的平衡性(一定程度上消除了因为极致的)。
 ### 内存块
 
 分配器将其管理的内存块分为两种:

@@ -2,7 +2,7 @@
 
 ## Quesion 
 free？
-lsmod 
+lsmod ?
 
 systemctl?
 sysctl?
