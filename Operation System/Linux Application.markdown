@@ -49,3 +49,8 @@ vm.swappiness = 0
 查看是否被加载 lsmod | grep br_netfilter
 
 加载网桥过滤配置文件 sysctl -p /etc/sysctl.d/k8s.conf
+
+
+## 配置yum源为清华源
+
++ 修改/etc/yum.repo.d/CentOS.

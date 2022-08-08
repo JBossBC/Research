@@ -40,6 +40,20 @@ kill ??
 `ls -lR|grep "^-"| wc -l`
 
 
+### 防火墙操作
+
++ 关闭防火墙:systemctl stop firewalld
++ 开机禁用防火墙 systemctl disable firewalld
++ 开机启动防火墙 systemctl enable firewalld
++ 开启防火墙 systemctl start filewalld
++ 检查防火墙状态 systemctl status firewalld
+
+### 使用firewall-cmd配置端口
+
++ 查看防火墙状态:firewall-cmd --state
++ 重新加载配置:firewall-cmd --reload
++ 查看开放的端口: firewall-cmd --list-ports
+
 ### diff(比较文件内容差异)
 
 diff[参数]文件1 文件2
@@ -89,3 +103,9 @@ g:移动到第一行
 G:移动到最后一行
 
 &pattern:仅显示匹配模式的行，而不是整个文件
+
+
+## free -m 查看内存和swap分区情况
+
+
+## 使用dns查看域名ip (nslookup 域名)
