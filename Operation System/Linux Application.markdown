@@ -53,4 +53,4 @@ vm.swappiness = 0
 
 ## 配置yum源为清华源
 
-+ 修改/etc/yum.repo.d/CentOS.
++ 修改/etc/yum.repo.d/CentOS.Base文件
