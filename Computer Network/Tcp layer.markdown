@@ -1,5 +1,9 @@
 ## TCP layer
 
+## Question 
+
+首部长度?
+
 ![](https://img-blog.csdn.net/20181015142113271?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxNzI3MjE4/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
 
 4位首部长度:限制了tcp头部不能超过64bit
