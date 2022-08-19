@@ -1,1 +1,2 @@
-# DCL
+# DCL(Double check lock)
+
