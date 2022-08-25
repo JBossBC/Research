@@ -11,6 +11,10 @@ type Student struct {
 }
 
 func main() {
+	// var pointer interface{} = nil
+	// var pointer1 interface{} = nil
+	// print(reflect.ValueOf(&pointer))
+	// print(reflect.ValueOf(&pointer1))
 	var pointer = &Student{
 		Name: "豪猪",
 		Id:   1,
