@@ -60,3 +60,16 @@ RFC文档对报文格式的定义:
   
    + 客户端发送"QUIT"命令
    + 服务器收到后，回应应答码"221",并结束会话
+
+
+## SMTP协议的扩展协议:MIME
+
+MIME不属于一个邮件传输协议，它只是对SMTP的一个扩展，不能代替SMTP协议，至于为啥要替换SMTP。主要是因为SMTP协议在传输报文时，只能够传输7位的ASCII格式的报文，不支持那些不使用7位ASCII格式的语种，同时它也不支持语音和视频数据的传输，因此我们需要一个辅助性协议帮忙传输报文，它就是MIME。
+
+MIME协议定义了5种头部，用来加在原始的STMP头部，以便定义参数的转换。
+
+    1. MIME-Version:MIME版本
+    2. Content-Type:内容类型
+    3. Content-Tansfer-Encoding:内容传输编码
+    4. Content-ID:内容标识
+    5. Content-Description:内容描述
