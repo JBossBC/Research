@@ -19,38 +19,46 @@ func main() {
 	for i := 0; i < length; i++ {
 		fmt.Fscan(reader, &index, &value)
 		discretizationMap[index] += value
-		convertArr[i] = index
+	}
+	var pointer int
+	for index, _ := range discretizationMap {
+		convertArr[pointer] = index
+		pointer++
 	}
 	sort.Ints(convertArr)
-	var unequalArr = make([]int, length)
-	var pointerIndex = 0
-	//去掉重复的元素,double pointer
-	var i = 0
-	for i < length {
-		var temp = i + 1
-		for temp < length && convertArr[temp] == convertArr[i] {
-			temp++
-		}
-		unequalArr[pointerIndex] = convertArr[i]
-		i = temp
-		pointerIndex++
-	}
-	pointerIndex--
 	for times > 0 {
 		var searchBegin, searchEnd = -1, -1
 		fmt.Fscan(reader, &searchBegin, &searchEnd)
-		var tempArr = make([]int, 0)
-		for j := 0; j < len(unequalArr); j++ {
-			if unequalArr[j] >= searchBegin && unequalArr[j] <= searchEnd {
-				tempArr = append(tempArr, unequalArr[j])
-			}
-			if unequalArr[j] >= searchEnd {
+		var beginPointer, endPointer int = -1, -1
+		for j := 0; j < pointer; j++ {
+			if convertArr[j] >= searchBegin {
+				beginPointer = j
 				break
 			}
 		}
+		if beginPointer < 0 {
+			if convertArr[0] <= searchEnd {
+				beginPointer = 0
+			} else {
+				continue
+			}
+		}
+		for j := beginPointer; j < pointer; j++ {
+			if convertArr[j] > searchEnd {
+				endPointer = j - 1
+				break
+			}
+			if j == pointer-1 {
+				endPointer = pointer - 1
+			}
+		}
+
 		var result = 0
-		for j := 0; j < len(tempArr); j++ {
-			result += discretizationMap[tempArr[j]]
+		if beginPointer < 0 && endPointer < 0 {
+			continue
+		}
+		for j := beginPointer; j <= endPointer && j >= 0; j++ {
+			result += discretizationMap[convertArr[j]]
 		}
 		fmt.Println(result)
 		times--

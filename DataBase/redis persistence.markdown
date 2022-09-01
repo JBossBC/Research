@@ -74,5 +74,75 @@ redis的所有数据都是保存在内存中，然后不定期的通过异步方
 
 记录服务器接收的每个写入操作，采用仅追加方式将命令写入AOF文件,服务启动时再重新执行AOF文件中的命令以达到恢复数据的目的。使用与redis协议本身相同的格式记录命令，具有很好的可读性。当日志太大时，redis可以在后台重写日志(rewrite机制)
 
+### appendonly
+
+仅附加文件是一种提供更好的耐用性。例如，使用默认数据fsync策略Redis在一段时间内只会丢失一秒钟的写操作。AOF和RDB持久性可以同时启用而不会出现问题。如果启动时启用了AOF，redis将加载AOF，即文件具有更好的耐久性保证。
+
+### appendfilename
+
+仅附加文件的名称，默认:appendonly.aof
+
+### appendfsync
+
+fsync()调用告诉操作系统在磁盘上实际写入数据，而不是在输出缓冲区中等待更多的数据。appendfsync有三个参数:默认为everysec
+
+       + no:不要fsync，只要让操作系统在需要时刷新数据即可，更快
+       + always:每次执行写入操作后进行fsync。慢，最安全。
+       + everysec:每秒同步一次
+
+
+### no-appendfsync-on-rewrite
+
+重写时是否可以使用appendfsync，默认:no,可以保证数据安全性。
+
+### auto-aof-rewrite-percentage
+
+设置重写规则的文件大小倍率基准值,默认:100,代表含义为AOF文件大小超过上次重写AOF文件的一倍时进行重写。
+
+### auto-aof-rewrite-min-size
+
+设置重写规则的文件大小基准值，默认:64mb,代表含义为AOF文件大小超过64mb则进行重写
+
+
+### aof-load-truncated
+
+在redis过程中，可能会发现AOF文件在末尾被截断的情况。如果aof load truncated设置为yes，则加载并删除一个截断的aof文件，redis服务器会发出一个日志来通知用户该事件。否则，如果该选项设置为"否"，则服务器将中止并返回一个错误。当选项设置为"否"时，用户需要在重新启动之前，使用"redis check AOF"实用程序修复AOF文件。如果在加载过程中发现AOF已损坏，那么服务器仍将退出并出现错误。默认:yes
+
+### AOF修复
+
+运行根目录下redis-check-aof --fix 进行修复
+
+
+将appendonly.aof文件移动到redis根目录并启动服务
+
+
+### Rewrite重写机制
+
++ rewrite是什么?
+
+     AOF采用文件追加的方式，会导致文件越来越大，为了避免出现此种情况，新增了持久化重写机制，当AOF文件大小超过了所设定的阈值，redis就会启用AOF的文件压缩，使得AOF文件只保留可以恢复数据的最小指令集，客户端可以使用bgrewriteaof来启动AOF重写
+
++ rewrite  theory
+
+     随着AOF文件持续增大时，redis会fork出一条新进程来将文件重写(也是先写临时文件最后rename)，遍历新进程的内存中数据，每条记录有一条set语句，重写AOF文件的操作，并没有读取旧的aof文件，而是将整个内存中的数据内容用命令的方式重写了一个新的AOF文件。
+
++ 触发机制
+
+      redis会记录上次重写时AOF文件的大小，默认配置是当AOF文件大小是上次rewrite后大小的一倍且文件大小大于64M时触发
+
+
+### AOF advantage
+
++ 使用AOF可以设置不同的fsync策略:完全不fsync，每秒fsync，每次查询fsync。使用fsync every second的默认策略，对于服务器执行写操作依旧可以保持不错的性能(fsync是使用后台线程执行的，当没有fsync进行时，主线程将努力执行写操作)，但是您可能损失1秒的写操作
++ AOF日志是一个只附加的日志，因此在断电的情况下没有查找和损坏问题。即使由于某种原因日志以半写命令结束，redis check aof 工具也能轻松地修复它。
++ redis能够在后台自动重写AOF。重写是完全安全的，因为当redis继续附加到旧文件时，用创建当前数据集所需的最小操作集生成一个完全新的文件，并且一旦第二个文件准备就绪，redis就会切换这两个文件并开始附加到新文件。
++ AOF以易于理解和解析的格式存储了每个写操作日志记录，可以轻松导出AOF文件
+
+### AOF disadvantage
+
++ 对于相同的数据集，AOF文件通常比等效的RDB文件大
++ AOF可能比RDB慢，具体取决于fsync策略。一般来说，fsync设置为每秒一次时，性能仍然非常高，禁用fsync时，即使在高负载下，它也应该与RDB一样快。
++ 在使用AOF时可能遇到十分罕见的错误，使用RDB持久性几乎不可能出现这种错误。
+
 
 
