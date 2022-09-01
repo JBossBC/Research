@@ -1,3 +1,0 @@
-# Algorithm 
-
-example1
