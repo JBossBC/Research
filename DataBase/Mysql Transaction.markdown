@@ -26,3 +26,14 @@
 
 //InnoDB解决脏读的方案是:将改变的数据加上行锁，其他数据不能读取该数据修改后的数据，只返回该数据修改前的数据。???
 
+
+
+## Transaction Persistence
+
+
+mysql引入了redo log，buffer pool 内存写完了，然后会写一份redo log ，这份redo log 记载着这次在某个页上面做了什么修改。
+
+即使Mysql在中途挂了，我们还可以根据redo log 来对数据进行恢复。
+
+
+redo log是在磁盘中顺序写的，写入速度很快。并且它记录的是物理修改(xxxx页做了xxx修改)，文件的体积很小，恢复速度也很快。
