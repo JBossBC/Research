@@ -32,8 +32,43 @@ axios是一个基于promise的http库,类似于jq的ajax,用于http请求，可�
 + headers:请求头
 + params:将请求参数拼接到url上
 + data:将请求参数放置到请求体中
++ transformRequest:[function(data,headers){}],
++ transformResponse:[function(data){}],
++ timeout:number,
++ responseType:,
 
+## axios响应
+    
+    {
+      // `data` 由服务器提供的响应
+      data: {},
+    
+      // `status` 来自服务器响应的 HTTP 状态码
+      status: 200,
+    
+      // `statusText` 来自服务器响应的 HTTP 状态信息
+      statusText: 'OK',
+    
+      // `headers` 服务器响应的头
+      headers: {},
+    
+       // `config` 是为请求提供的配置信息
+      config: {},
+     // 'request'
+      // `request` is the request that generated this response
+      // It is the last ClientRequest instance in node.js (in redirects)
+      // and an XMLHttpRequest instance the browser
+      request: {}
+    }
+
+
+## 配置的优先顺序
+
+配置会以一个优先顺序进行合并。这个顺序是:在lib/default.js找到的库的默认值,然后是实例的defaults属性,最后是请求的config参数,后者优先于前者
 
 ## 拦截器
 
-在请求前或响应被处理前拦截他们,分为两种,请求拦截器与响应拦截器
+在请求或响应被then或catch处理前拦截它们
+
+> axios.interceptors.request
+> axios.interceptors.response
