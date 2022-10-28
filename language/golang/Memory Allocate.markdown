@@ -106,7 +106,7 @@ mheap的作用不只是管理central，大对象也会直接通过mheap进行分
 1. 计算待分配对象相应规格。
 2. 从cache.alloc数组找到规格相同的span。
 3. 从span.freelist链表提取可用object。
-4. 如span.freelist为空，从1central获取新的span。
+4. 如span.freelist为空，从central获取新的span。
 5. 如central.nonempty为空，从heap.free/freelarge获取，并切分成object链表。
 6. 如heap没有大小合适的闲置span，向操作系统申请新内存块
 
