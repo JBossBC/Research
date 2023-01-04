@@ -24,4 +24,40 @@
 
 5. message.max.bytes
 
-    this param indicates  the maximum of broker which can receive the news(default value is 1000012(B)),if producer send the news which length gether than  this maxValue,the producer client will thorw the recordTooLargeException error.If you will update this param,you should consider the 
+    this param indicates  the maximum of broker which can receive the news(default value is 1000012(B)),if producer send the news which length gether than  this maxValue,the producer client will thorw the recordTooLargeException error.If you will update this param,you should consider the  max.request.size(Client param) 、max.message.bytes(topic param).In order to avoid a series of influence which  are caused by updating this param,i suggest that you should consider 
+    the feasibility of splitting messages.
+
+
+
+## kafka producer init required param
+
++ **bootstrap.servers**:indicate the address which producer client need to connect  in kafka cluster.you should set greater than two broker to keep the highly available.
++ **key.serializer and value.serializer**:the news which is accepted by broker must keep the form of byte array.
+
+
+
+## kafka producer builder news(create producerRecord object)
+
+
+
+
+## kafka producer send news
+
++ sync
++ async
++ fire-and-forget(send messages to kafka without caring whether the message arrive correctly)
+
++ send function returns a Future object.
+    
+     Future represents a life cycle of task,and provides the corresponding method to judge the task whether finish or cancel.
+
+      kafka producer will thorw two types of exceptions: retryable exception and non-retryable exception.For retryable exception,you can set retries param to avoid this situation.As long as the exception recover in the specified  times,the system cant throw exception
+
+
+
+
+
+ 
+
+
+
