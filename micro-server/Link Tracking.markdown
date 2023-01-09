@@ -40,3 +40,47 @@ Span则是真实的数据实体模型，表示一次分布式请求过程的一�
 + Attributes:属性,一组<k,v>键值对构成的集合
 + Event:操作期间发生的时间
 + SpanContext:Span上下文内容，通常用于在Span间传播，其核心字段包括TraceId、SpanId
+
+
+
+## OpenTracing
+
+opentracing是一套分布式追踪协议，与平台，语言无关，统一接口，方便开发接入不同的分布式追踪系统。
+
++ 语义规范:描述定义的数据模型Tracer，span和spancontext等
++ 语义惯例:罗列出tag和logging操作时，标准的key值
+
+### Trace和span
+
+在opentracing中，跟踪信息被分为Trace和Span两个部分，它们按照一定的结构存储跟踪信息，所以它们是OpenTracing中数据模型的核心。
+
+Trace是一次完整的跟踪，Trace由多个Span组成。( Trace 是多个 Span 组成的有向非循环图)
+
+
+### Trace
+
+在OpenTracing中，Trace是一个有向非循环图，意味着Trace必定有且只有一个起点。
+
+这个起点会创建一个Trace对象，这个对象一开始初始化了Trace id和process,trace id是一个32个长度的字符串组成，它是一个时间戳，而process是起点进程所在主机的信息。
+
+每个Span封装了如下状态:
+
++ 操作名称
++ 开始时间戳
++ 结束时间戳
++ 一组零或多个键值结构的span标签。键必须是字符串，值可以是字符串，布尔或数值类型
++ 一组零或多个span日志，其中每个都是一个键值映射并与一个时间戳配对。键必须是字符串，值可以是任何类型。并非所有的OpenTracing实现都必须支持每种值类型。
++ 一个SpanContext
++ 零或多个因果相关的span间的references
+
+> 每个spanContext封装了如下状态:
+
+>     + 任何需要跟跨进程span关联的，依赖于OpenTracing实现的状态
+>     + 键值结构的跨进程的Baggage items（区别于 span tag，baggage 是全局范围，在 span 间保持传递，而tag 是 span 内部，不会被子 span 继承使用。）
+
+
+### inject和extract操作
+
+既然是分布式的追踪，肯定涉及到跨进程/机器的通讯，在进程间通过传递SpanContext来提供足够的信息建立span间的关系
+
+在上游服务中，spancontext通过inject操作向carrier中注入tracing信息，传递后下游服务中通过extract从carrier中提取tracing数据
