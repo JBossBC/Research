@@ -25,7 +25,7 @@
 
 如果input的类型是log，input会找到对应paths配置下的所有符合的文件并且对每个符合的file开启一个harvester。每个input起一个单独的go routine进行工作。
 
-filebeat 目前支持serveral input types.每个input类型能够被多次定义.log input检查每个file去判断是否需要开启采集器，是否已经有一个已经在running,或者是否这个文件被忽略掉(ignore_older). New lines are only picked up if the size of the file has changed since the harvester was closed.
+filebeat 目前支持serveral input types.每个input类型能够被多次定义.log input检查每个file去判断是否需要开启采集器，是否已经有一个已经在running,或者是否这个文件被忽略掉(ignore_older). New lines are only picked up if the size of the file has changed since the harvester was closed.(实现可以看看)
 
 
 ## principle
