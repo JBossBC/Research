@@ -52,6 +52,10 @@
 
 ## redis list
 
+Redis列表是简单的字符串列表，按照插入顺序排序。你可以添加一个元素到列表的头部（左边）或者尾部（右边）
+
+一个列表最多可以包含 232 - 1 个元素 (4294967295, 每个列表超过40亿个元素)。
+
 + blpop key1 key2 timeout 移除并获取列表的第一个元素，如果列表没有元素会阻塞列表直到等待超时或发现可弹出元素为止。
 + brpop key1 key2 timeout 移除并获取列表的最后一个元素，如果列表没有元素会阻塞列表直到等待超时或发现可弹出元素为止
 + brpopblpop source destination timeout 从列表中弹出一个值，将弹出的元素插入到另一个列表中并返回它；如果列表没有元素会阻塞列表直到等待超时或发现可弹出元素为止
@@ -72,9 +76,42 @@
 
 ## redis set
 
+Redis 的 Set 是 String 类型的无序集合。集合成员是唯一的，这就意味着集合中不能出现重复的数据。
+
+集合对象的编码可以是 intset 或者 hashtable。
+
+Redis 中集合是通过哈希表实现的，所以添加，删除，查找的复杂度都是 O(1)。
+
+集合中最大的成员数为 232 - 1 (4294967295, 每个集合可存储40多亿个成员)。
+
 + sadd key member1 member2 向一个集合中添加多个值
 + scard key 获取集合的成员数
 + sdiff key1 key2 返回第一个集合与其他集合之间的差异
 + sinter key1 key2 返回给定的所有集合的交集
 + smembers key 返回集合中的所有成员
-+ smove source destination member
++ smove source destination member 将member元素从source集合中移动到destination集合
++ spop key 移除并返回集合中的一个随即元素
++ srandmember key count 返回集合中一个或者多个随机数
++ srem key member1 member2 移除集合中一个或多个成员
++ sunion key1 key2 返回所有给定集合的并集
+
+
+## redis sorted set
+
+Redis 有序集合和集合一样也是 string 类型元素的集合,且不允许重复的成员。
+
+不同的是每个元素都会关联一个 double 类型的分数。redis 正是通过分数来为集合中的成员进行从小到大的排序。
+
++ zadd key score1 member1 score2 member2: 向有序集合添加一个或多个成员，或者更新已经存在的成员的分数
++ zcard key 获取有序集合的成员数
++ zcount key min max 计算在有序集合中指定区间分数的成员数
++ zincrby key increment member:有序集合中对指定成员的分数加上increment
++ zrange key start stop withscores 通过索引区间返回有序集合指定区间内的成员
++ zrank key member 返回有序集合中指定成员的索引
++ zrem key member member2 移除有序集合中一个或者多个成员。
++ zscore key member 返回有序集中，成员的分数值
++ zrevrank key member 返回有序集合中指定成员的排名，有序集成员按分数值递减(倒序)
++ zunionstore destination numkeys key key2 计算一个或者多个有序集的并集，并存储到新的key中。
++ zscan key cursor match pattern count count 迭代有序集合中的元素(包括元素成员和分值),能增加搜索条件。
++ zremrangebyrank key start stop 移除有序集合中给定的排名区间内的所有成员
++ zremrangebyscore key start stop 移除有序集合中给定的分数区间内的所有成员
