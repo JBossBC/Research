@@ -49,6 +49,7 @@
 + hmset key field1 value1 field2 value2 同时将多个 field-value对设置到哈希表key中
 + hsetnx key field value 只有当field不存在时，设置哈希表字段的值
 + hvals key 获取哈希表中的所有值
++ hincrby key field increment 为哈希表中指定字段的整数值加上增量increment
 
 ## redis list
 
