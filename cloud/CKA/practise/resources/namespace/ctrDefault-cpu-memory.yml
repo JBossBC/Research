@@ -1,0 +1,14 @@
+## 若容器只规划了request,则容器的limit和namespace中的limit一致，若容器只规划了limit，则容器的request和容器的limit相同
+apiVersion: v1
+kind: LimitRange
+metadata:
+   name: cloudstorage-lr
+spec:
+   limits:
+     -   defualt:
+            memory: 512Mi
+            cpu: "1"
+         defaultRequest:
+            memory: 256Mi
+            cpu: "0.5"
+         type: Container       
