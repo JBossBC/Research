@@ -1,0 +1,17 @@
+## 其中一个容器会创建失败(当创建的pod中，容器的qos class不一致时，只能创建成功第一个(也许是与一个类型相同的))
+
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: qos-demo-4
+  namespace: qos-example
+spec:
+  containers:
+  - name: qos-demo-4-ctr-1
+    image: nginx
+    resources:
+      requests:
+        memory: "200Mi"
+  - name: qos-demo-4-ctr-2
+    image: redis

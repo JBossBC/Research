@@ -41,3 +41,46 @@ kubernetes为该service服务分配一个IP地址，该IP地址由服务代理�
 ## 自定义EndpointSlices
 
 当为服务创建EndpointSlice对象时，可以为EndpointSlice使用任何名称。命名空间的每个EndpointSlice必须有一个唯一的名称。通过在EndpointSlice上设置kubernetes.io/service-name label可以将EndpointSlice链接到服务
+
+> 端口名称只能包含小写字母数字字符和-。端口名称还必须以字母数字字符开头和结尾。
+
+
+## 选择自己的IP地址
+
+在Service创建的请求中，可以通过设置spec.clusterIp字段来指定自己的集群IP地址。比如，希望替换一个已经已存在的DNS条目，或者遗留系统已经配置了一个固定的IP且很难重新配置。
+
+用户选择的IP地址必须合法，并且这个IP地址在`service-cluster-ip-range`CIDR范围内，这对API服务器来说是通过一个标识来指定的。如果IP地址不合法，API服务器会返回HTTP状态码422，表示值不合法
+
+
+## 服务发现
+
+kubernetes支持两种基本的服务发现模式 --- 环境变量和DNS
+
+### 环境变量
+
+当Pod运行在Node上，kubelet会为每个活跃的Service添加一组环境变量。kubelet为Pod添加环境变量{SVCNAME}_SERVICE_HOST和{SVCNAME}_SERVICE_PORT.这里service的名称需要大写，横线被转换成下划线。
+
+
+### DNS
+
+
+支持集群的DNS服务器监视kubernetes API中的新服务，并为每个服务创建一组DNS记录。如果在整个集群中都启用了DNS，则所有Pod都应该能通过其DNS名称自动解析服务。
+
+例如，如果你在kubernetes命名空间my-ns中有一个名为my-service的服务，则控制平面和DNS服务共同为my-service.my-ns创建DNS记录。my-ns命名空间中的Pod应该能够通过按名检索my-service来找到服务。
+
+其他命名空间中的 Pod 必须将名称限定为 my-service.my-ns。 这些名称将解析为为服务分配的集群 IP。
+
+Kubernetes 还支持命名端口的 DNS SRV（服务）记录。 如果 my-service.my-ns 服务具有名为 http　的端口，且协议设置为 TCP， 则可以对 _http._tcp.my-service.my-ns 执行 DNS SRV 查询以发现该端口号、"http" 以及 IP 地址。
+
+
+## 发布服务
+
+
+kubernetes serviceTypes允许指定你所需要的service类型。
+
+Type的取值以及行为如下:
+
++ ClusterIP:通过集群的内部 IP 暴露服务，选择该值时服务只能够在集群内部访问。 这也是你没有为服务显式指定 type 时使用的默认值。
++ NodePort: 通过每个节点上的IP和静态端口暴露服务。 为了让节点端口可用，Kubernetes 设置了集群 IP 地址，这等同于你请求 type: ClusterIP 的服务。
++ LoadBalancer:使用云提供商的负载均衡器向外部暴露服务。外部负载均衡器可以将流量路由到自动创建的NodePort服务和ClusterIP服务上。
++ ExternalName:通过返回CNAME记录和对应值，可以将服务映射到externalName字段的内容。无需创建任何类型代理
