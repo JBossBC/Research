@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: LimitRange
+metadata:
+   name: cpu-max-min-lr
+   namespace: qos-example
+spec:
+  limits:
+   -  max:
+        cpu: 3
+      min:
+         cpu: 1  

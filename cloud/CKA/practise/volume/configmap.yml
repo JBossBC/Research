@@ -1,0 +1,20 @@
+## configmap提供了向pod注入配置数据的方法。configmap对象中存储的数据可以被configmap类型的卷引用
+## configmap使用之前应该确保被创建，否则会报错
+apiVersion: v1
+kind: Pod
+metadata:
+  name: configmap-pod
+spec:
+  containers:
+    - name: test
+      image: busybox:1.28
+      volumeMounts:
+        - name: config-vol
+          mountPath: /etc/config
+  volumes:
+    - name: config-vol
+      configMap:
+        name: log-config
+        items:
+          - key: log_level
+            path: log_level
