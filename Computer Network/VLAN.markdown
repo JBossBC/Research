@@ -28,6 +28,6 @@ Port3、Port4为trunk端口，**trunk端口不属于某个特定的VLAN，而是
 
 ### VLAN tag如何发挥作用的？
 
-当PC1向PC3发送数据时，PC1将IP包封装在以太帧中，帧的目的MAC地址为PC3的地址，此时帧并没有tag信息。当帧到达port1时，port1给帧打上tag(VID=100)，帧进入switch1，然后帧通过port3、port4到达1switch2(port3、port4允许VLAN ID为100、200的帧通过)。在switch2中，port5所标记的VID和帧相同，MAC地址也相匹配，帧就发送到Port5上，Port5将帧的tag信息去掉，然后发给PC3.由于PC2、PC4和PC1的VLAN不同，因此收不到PC1发送的帧
+当PC1向PC3发送数据时，PC1将IP包封装在以太帧中，帧的目的MAC地址为PC3的地址，此时帧并没有tag信息。当帧到达port1时，port1给帧打上tag(VID=100)，帧进入switch1，然后帧通过port3、port4到达switch2(port3、port4允许VLAN ID为100、200的帧通过)。在switch2中，port5所标记的VID和帧相同，MAC地址也相匹配，帧就发送到Port5上，Port5将帧的tag信息去掉，然后发给PC3.由于PC2、PC4和PC1的VLAN不同，因此收不到PC1发送的帧
 
 本质上VLAN相关字段的添加能让交换机再次进行分发对象的筛选，原来的交换机对所有的ARP广播请求进行广播，但是现在如果ARP广播请求中VLAN ID字段不与交换机所有端口的VLAN字段其中一个匹配，那么交换机就不会接受该请求。
