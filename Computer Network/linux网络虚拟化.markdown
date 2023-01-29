@@ -142,6 +142,9 @@ MACVLAN 借用了 VLAN 子接口的思路，并且在这个基础上更进一步
 与 Linux Bridge 相比，这种以网卡模拟交换机的方法在目标上并没有本质的不同，但 MACVLAN 在内部实现上要比 Linux Bridge 轻量得多。从数据流来看，副本网卡的通信只比物理网卡多了一次判断而已，能获得很高的网络通信性能；从操作步骤来看，由于 MAC 地址是静态的，所以 MACVLAN 不需要像 Linux Bridge 那样考虑 MAC 地址学习、STP 协议等复杂的算法，这进一步突出了 MACVLAN 的性能优势。
 
 
+> 关于linux bridge和MACVLAN的首先最主要的区别为，MACVLAN是多张虚拟网卡的实现方案,而linux bridge提供了二层网络之间的转发方案。linux bridge与传统的交换机最大的不同是linux bridge还能与特定的三层网络中的IP进行特定操作
+
+
 ## 容器间通信
 
 

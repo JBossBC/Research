@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"sync"
+	"time"
 )
 
 var (
@@ -12,7 +13,8 @@ var (
 
 func main() {
 	count := 0
-	for count < 100000000 {
+	pre := time.Now()
+	for count < 100000 {
 		a, b := 0, 0
 		count++
 		var wg sync.WaitGroup
@@ -38,4 +40,5 @@ func main() {
 		}
 	}
 	fmt.Println("you success")
+	println(time.Since(pre).String())
 }

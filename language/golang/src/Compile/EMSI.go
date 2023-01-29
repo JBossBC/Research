@@ -17,6 +17,7 @@ func main() {
 	go func() {
 		println("start thread2")
 		for {
+			time.Sleep(2 * time.Second)
 			running = false
 		}
 	}()
