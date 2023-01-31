@@ -8,7 +8,7 @@ import (
 	"sync"
 )
 
-var lock sync.Mutex
+//var lock sync.Mutex
 
 var sum int64
 
@@ -33,12 +33,11 @@ func main() {
 	for i := 0; i < 10000; i++ {
 		go func() {
 			defer group.Done()
-			globalStudent = getObj()
 			localInt++
 		}()
 	}
 	group.Wait()
-	fmt.Println(globalStudent)
+	fmt.Println(localInt)
 	runtime.GC()
 
 	trace.Stop()
@@ -46,15 +45,16 @@ func main() {
 	//pprof.WriteHeapProfile(create)
 }
 
-func getObj() *student {
-	if globalStudent == nil {
-		lock.Lock()
-		globalStudent = &student{
-			name: "hello",
-			id:   0,
-			sex:  localInt,
-		}
-		lock.Unlock()
-	}
-	return globalStudent
-}
+//
+//func getObj() *student {
+//	if globalStudent == nil {
+//		lock.Lock()
+//		globalStudent = &student{
+//			name: "hello",
+//			id:   0,
+//			sex:  localInt,
+//		}
+//		lock.Unlock()
+//	}
+//	return globalStudent
+//}

@@ -20,17 +20,13 @@ func main() {
 		var wg sync.WaitGroup
 		wg.Add(2)
 		go func() {
-			lock.Lock()
 			a = 1
 			x = b
-			lock.Unlock()
 			wg.Done()
 		}()
 		go func() {
-			lock.Lock()
 			b = 1
 			y = a
-			lock.Unlock()
 			wg.Done()
 		}()
 		wg.Wait()
