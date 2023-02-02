@@ -213,6 +213,26 @@ PS：有个小细节请注意，尽量在你的事务外部进行网络请求，
 
 
 
+## TCC
+
+TCC是try、confirm、cancel三个词语的缩写。
+
+### TCC组成
+
++ try:尝试执行，完成所有业务检查(一致性),预留必须业务资源(准隔离性)
++ confirm:如果所有分支的try都成功了，则走到confirm阶段。confirm真正执行业务,不作任何业务检查，只使用try阶段预留的业务资源
++ cancel阶段:如果所有分支的try有一个失败了，则走到cancel阶段。cancel阶段释放try阶段预留的业务资源
+
+
+
+## XA事务模式
+
+XA是由X/open组织提出的分布式事务的规范，XA规范主要定义了全局事务管理器和局部资源管理器之间的接口
+
+XA一共分为两个阶段:
+
+第一阶段(prepare):即所有的参与者RM准备执行事务并锁住所需要的资源。参与者ready时，向TM报告已准备就绪。第二阶段(commit/rollback):当事务管理者(TM)确认所有参与者(RM)都ready后,向所有参与者发送commit命令
+
 
 
 
@@ -294,4 +314,18 @@ PS：幂等控制如果也采用“先查再改”，也是一样很容易出现
 + 空补偿控制--如果try没有执行，直接执行了cancel,那么3中cache插入gid-branchid-try会成功,不走屏障内的逻辑,保证了空补偿控制
 + 幂等控制--2中任何一个操作都无法重复插入唯一键,保证了不会重复执行
 + 防悬挂控制--try在cancel之后执行，那么cancel会在3中插入gid-branchid-try,导致try在2中不成功,就不执行屏障内的逻辑，保证了防悬挂控制
+
+
+### 竟态分析
+
+假设Try和cancel并发执行，cancel和try都会插入同一个记录gid-branchid-try,由于唯一索引冲突,那么两个操作中只有一个能够成功
+
++ try插入gid-branchid-try失败，cancel操作插入gid-branchid-try成功,此时就是空补偿和悬挂的场景，按照子事务屏障算法，try和cancel都会直接返回
++ try插入gid-branchid-try成功，cancel操作插入gid-branchid-try失败,按照上面的算法，会正常执行业务,而且业务顺序是try在cancel前
++ try和cancel的操作在重叠期间遇见宕机的情况，那么至少cancel会被dtm重试,那么最终会回到上述情况
+
+
+
+
+
 
