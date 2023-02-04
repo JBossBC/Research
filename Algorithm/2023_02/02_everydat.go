@@ -1,15 +1,11 @@
 package main
 
-import (
-	"fmt"
-)
-
-func main() {
-	arr := shortestAlternatingPaths(5, [][]int{{2, 2}, {0, 1}, {0, 3}, {0, 0}, {0, 4}, {2, 1}, {2, 0}, {1, 4}, {3, 4}}, [][]int{{1, 3}, {0, 0}, {0, 3}, {4, 2}, {1, 0}})
-	for i := 0; i < len(arr); i++ {
-		fmt.Println(arr[i])
-	}
-}
+//func main() {
+//	arr := shortestAlternatingPaths(5, [][]int{{2, 2}, {0, 1}, {0, 3}, {0, 0}, {0, 4}, {2, 1}, {2, 0}, {1, 4}, {3, 4}}, [][]int{{1, 3}, {0, 0}, {0, 3}, {4, 2}, {1, 0}})
+//	for i := 0; i < len(arr); i++ {
+//		fmt.Println(arr[i])
+//	}
+//}
 
 //func shortestAlternatingPaths(n int, redEdges [][]int, blueEdges [][]int) []int {
 //	//

@@ -8,7 +8,6 @@ func main() {
 		slice = append(slice, 10)
 		slice[i] = 0
 	}
-	math.M
 	for i := 0; i < len(slice); i++ {
 		fmt.Printf("%d", slice[i])
 
