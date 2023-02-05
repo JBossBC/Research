@@ -16,6 +16,7 @@ func main() {
 	fmt.Fscanln(reader, &subStr)
 	fmt.Fscanln(reader, &originLength)
 	fmt.Fscanln(reader, &originStr)
+	subStr = subStr + " "
 	//build index
 	var begin int = 0
 	for i := 2; i < subLength; i++ {
@@ -28,16 +29,18 @@ func main() {
 		next[i] = begin
 	}
 	begin = 0
-	for i := 1; i < originLength; i++ {
-		for begin != 0 && originStr[i] != subStr[begin+1] {
+	for i := 0; i < originLength; i++ {
+		for begin != 0 && originStr[i] != subStr[begin] {
 			begin = next[begin]
+			i--
 		}
-		if originStr[i] == subStr[begin+1] {
+		if originStr[i] == subStr[begin] {
 			begin++
 		}
 		if begin == subLength {
 			fmt.Printf("%d ", i-subLength+1)
-			begin = next[begin]
+			begin = next[begin-1]
+			i--
 		}
 	}
 
