@@ -6,9 +6,9 @@ import (
 	"os"
 )
 
-var trieArr = make([][26]int, 10010)
+var trieArr = make([][26]int, 100100)
 
-var hasStr = make(map[int]int, 1000)
+var hasStr = make(map[int]int, 100100)
 var pointer = 1
 
 func insert(str []byte) {
@@ -24,12 +24,14 @@ func insert(str []byte) {
 	hasStr[result]++
 }
 func query(str []byte) {
+	var result int
 	for i := 0; i < len(str); i++ {
 		var numsConv = str[i] - 'a'
 		if trieArr[i][numsConv] == 0 {
 			resultOutput = append(resultOutput, 0)
 			return
 		}
+		result = trieArr[i][numsConv]
 	}
 	result := trieArr[len(str)-1][str[len(str)-1]-'a']
 	if value, ok := hasStr[result]; ok {
