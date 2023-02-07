@@ -6,18 +6,18 @@ import (
 	"os"
 )
 
-var trieArr = make([][26]int, 100100)
+var trieArr [][26]int
 
-var hasStr = make(map[int]int, 100100)
-var pointer = 1
+var hasStr map[int]int
+var pointer = 0
 
 func insert(str []byte) {
 	var result int
 	for i := 0; i < len(str); i++ {
 		var numsConv = str[i] - 'a'
 		if trieArr[i][numsConv] == 0 {
-			trieArr[i][numsConv] = pointer
 			pointer++
+			trieArr[i][numsConv] = pointer
 		}
 	}
 	result = trieArr[len(str)-1][str[len(str)-1]-'a']
@@ -33,7 +33,7 @@ func query(str []byte) {
 		}
 		result = trieArr[i][numsConv]
 	}
-	result := trieArr[len(str)-1][str[len(str)-1]-'a']
+	result = trieArr[len(str)-1][str[len(str)-1]-'a']
 	if value, ok := hasStr[result]; ok {
 		resultOutput = append(resultOutput, value)
 	} else {
@@ -45,6 +45,8 @@ func query(str []byte) {
 var resultOutput = make([]int, 0, 10010)
 
 func main() {
+	hasStr = make(map[int]int)
+	trieArr = make([][26]int, 100100)
 	reader := bufio.NewReader(os.Stdin)
 	var operationNums int
 	fmt.Fscanln(reader, &operationNums)
