@@ -7,8 +7,6 @@ import (
 	"time"
 )
 
-var lock sync.Mutex = sync.Mutex{}
-
 func TestSlideWindows(t *testing.T) {
 	println(TryAcquire())
 
@@ -23,6 +21,7 @@ func TestConcurrencyTryAcquire(t *testing.T) {
 	const times = 10000
 	group := sync.WaitGroup{}
 	group.Add(times)
+
 	var smoothTimes time.Duration = 3 * time.Millisecond
 	var resultInt int64
 	var cycle int64 = 0
@@ -38,7 +37,7 @@ func TestConcurrencyTryAcquire(t *testing.T) {
 			}
 			result := TryAcquire()
 			if slideLimiter.totalCount > slideLimiter.permitsPerWindows {
-				panic(any("slide windows invalid"))
+				panic("slide windows invalid")
 			}
 			if result {
 				atomic.AddInt64(&resultInt, 1)

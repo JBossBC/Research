@@ -61,9 +61,9 @@ func TryAcquire() bool {
 func (s *slideWindowsLimiter) TryAcquire() bool {
 	var diff int64
 	s.lock.Lock()
-	//for atomic.LoadInt32(&s.clearFlag) != 0 {
-	//	s.cond.Wait()
-	//}
+	for atomic.LoadInt32(&s.clearFlag) != 0 {
+		s.cond.Wait()
+	}
 	diff = time.Now().UnixNano() - s.timestamp
 	var index = diff / s.smallWindowsDistance
 	if diff <= s.windowsSize {
@@ -85,8 +85,8 @@ func (s *slideWindowsLimiter) TryAcquire() bool {
 					s.totalCount -= s.windows[i]
 					s.windows[i] = 0
 				}
-				println(atomic.CompareAndSwapInt32(&s.clearFlag, 1, 0))
-				//s.cond.Broadcast()
+				atomic.CompareAndSwapInt32(&s.clearFlag, 1, 0)
+				s.cond.Broadcast()
 			}()
 		}
 		s.lock.Unlock()
