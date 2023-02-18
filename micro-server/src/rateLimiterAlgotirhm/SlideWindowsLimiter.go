@@ -1,6 +1,7 @@
-package rateLimiterAlgotirhm
+package rateLimiter
 
 import (
+	"net/http"
 	"sync"
 	"sync/atomic"
 	"time"
@@ -27,6 +28,7 @@ type slideWindowsLimiter struct {
 	clearFlag            int32
 	cond                 *sync.Cond
 }
+type MiddleWare func(http.Handler) http.Handler
 
 func init() {
 	slideLimiter = &slideWindowsLimiter{

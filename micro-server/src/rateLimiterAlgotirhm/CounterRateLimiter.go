@@ -1,4 +1,4 @@
-package rateLimiterAlgotirhm
+package rateLimiter
 
 //
 //import (

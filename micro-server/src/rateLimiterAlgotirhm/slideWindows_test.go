@@ -1,4 +1,4 @@
-package rateLimiterAlgotirhm
+package rateLimiter
 
 import (
 	"sync"
@@ -9,7 +9,6 @@ import (
 
 func TestSlideWindows(t *testing.T) {
 	println(TryAcquire())
-
 }
 func BenchmarkTryAcquire(b *testing.B) {
 	for i := 0; i < b.N; i++ {
@@ -37,7 +36,7 @@ func TestConcurrencyTryAcquire(t *testing.T) {
 			}
 			result := TryAcquire()
 			if slideLimiter.totalCount > slideLimiter.permitsPerWindows {
-				panic("slide windows invalid")
+				panic(any("slide windows invalid"))
 			}
 			if result {
 				atomic.AddInt64(&resultInt, 1)
