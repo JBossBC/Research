@@ -5,63 +5,58 @@ import (
 	"fmt"
 	"math"
 	"os"
-	"sort"
 )
 
-var r, s []int
-var sIndex int
+var s map[int]bool
+var dist []int
 var times, pn int
 var graph [][]int
 
 func main() {
 	reader := bufio.NewReader(os.Stdin)
-	fmt.Fscanln(reader, &times, &pn)
+	fmt.Fscanln(reader, &pn, &times)
 	graph = make([][]int, pn)
 	for i := 0; i < len(graph); i++ {
 		graph[i] = make([]int, pn)
 	}
-	sIndex = -1
-	r = make([]int, pn)
-	s = make([]int, pn)
-	for i := 0; i < pn; i++ {
-		r[i] = math.MaxInt
-	}
-	r[0] = 0
 	for i := 0; i < times; i++ {
-		var x, y, length int
-		fmt.Fscanln(reader, &x, &y, &length)
-		if x == y {
+		var x, y, distance int
+		fmt.Fscanln(reader, &x, &y, &distance)
+		if graph[x-1][y-1] != 0 {
+			graph[x-1][y-1] = int(math.Min(float64(distance), float64(graph[x-1][y-1])))
 			continue
 		}
-		x--
-		y--
-		if graph[x][y] != 0 {
-			graph[x][y] = int(math.Min(float64(graph[x][y]), float64(length)))
-			continue
-		}
-		graph[x][y] = length
+		graph[x-1][y-1] = distance
 	}
-	sIndex++
-	s[sIndex] = 0
-	dijkstra()
+	s = make(map[int]bool)
+	dist = make([]int, pn)
 	for i := 0; i < pn; i++ {
-		println(r[i])
+		dist[i] = math.MaxInt
+	}
+	dist[0] = 0
+	dijkstra()
+	if dist[len(dist)-1] == math.MaxInt {
+		fmt.Println(-1)
+	} else {
+		fmt.Println(dist[len(dist)-1])
 	}
 }
 func dijkstra() {
-	for sIndex >= 0 {
-		var temp = s[sIndex]
-		sIndex--
-		for i := 1; i < pn; i++ {
-			if graph[temp][i] == 0 || temp == i {
+	for i := 0; i < pn; i++ {
+		var minIndex int
+		var value int = math.MaxInt
+		for j := 0; j < pn; j++ {
+			if !s[j] && dist[j] < value {
+				minIndex = j
+				value = dist[j]
+			}
+		}
+		s[minIndex] = true
+		for j := 0; j < pn; j++ {
+			if j == minIndex || graph[minIndex][j] == 0 || dist[j] < dist[minIndex]+graph[minIndex][j] {
 				continue
 			}
-			r[i] = int(math.Min(float64(r[temp]+graph[temp][i]), float64(r[i])))
-			sIndex++
-			s[sIndex] = i
+			dist[j] = dist[minIndex] + graph[minIndex][j]
 		}
-
 	}
-	sort.Ints(r)
-
 }
