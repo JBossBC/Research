@@ -49,6 +49,7 @@ func main() {
 	} else {
 		fmt.Println(dist[n-1])
 	}
+
 }
 func spfa() {
 	for tail >= head {
