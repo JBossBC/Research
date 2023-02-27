@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.14;
-
+//期权随机
+//根据分析，不存在随机数攻击的特例。
 contract Bucket {
     struct BucketStock {
         uint8[] typeDays;
