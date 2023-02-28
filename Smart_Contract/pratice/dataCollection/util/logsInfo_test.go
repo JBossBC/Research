@@ -11,7 +11,7 @@ import (
 
 func TestGetLogs(t *testing.T) {
 	//number, _ := GetCurrentBlockNumber()
-	event, err := GetEvent(TimeLess, 39000000, 39791976, []common.Address{common.HexToAddress("0xC7728354f9fe0e43514B1227162D5B0E40FaD410")}, nil)
+	event, err := GetEvent(TimeLess, 39790000, 39791976, []common.Address{common.HexToAddress("0xC7728354f9fe0e43514B1227162D5B0E40FaD410")}, nil)
 	if err != nil {
 		fmt.Println(err.Error())
 		return
@@ -21,7 +21,11 @@ func TestGetLogs(t *testing.T) {
 	if err != nil {
 		return
 	}
-	fmt.Println(len(done))
+	fmt.Println(done[0].Index)
+	fmt.Println(done[0].Data)
+	fmt.Println(done[0].TxHash)
+	fmt.Println(len(done[0].Topics))
+	fmt.Println(len(done[0].Data))
 }
 
 func TestGetEvent(t *testing.T) {
