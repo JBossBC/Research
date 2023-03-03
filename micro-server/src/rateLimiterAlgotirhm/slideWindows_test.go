@@ -1,6 +1,7 @@
 package rateLimiter
 
 import (
+	"github.com/JBossBC/ethutil"
 	"sync"
 	"sync/atomic"
 	"testing"
@@ -8,6 +9,7 @@ import (
 )
 
 func TestSlideWindows(t *testing.T) {
+	ethutil.GetClient()
 	println(TryAcquire())
 }
 func BenchmarkTryAcquire(b *testing.B) {
